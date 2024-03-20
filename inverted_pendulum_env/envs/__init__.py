@@ -1,0 +1,1 @@
+from inverted_pendulum_env.envs.inverted_pendulum_env import InvertedPendulumEnv
