@@ -33,7 +33,7 @@ python3 ppo_cont_action.py --seed=3 --capture-video --record-video-from=50000 --
 Параметр --set-target указывает, что обучение необходимо провести по сложному сценарию. 
 Параметр --set-target-step указывает, начиная с какого шага необходимо создавать цель в окружении (для поэтапного обучения)
 
-## Запуск экспериментов на сохраненых весах
+## Запуск экспериментов на сохраненных весах
 Сохраненные в процессе обучения веса можно протестировать с помощью скрипта evaluate.py
 ```
 python3 evaluate.py --model-path=runs/InvertedPendulumEnv-v0__ppo_cont_action__3__1710937470/ppo_cont_action.cleanrl_model --set-target
