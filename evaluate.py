@@ -129,7 +129,8 @@ if __name__ == "__main__":
     if not os.path.exists(f"runs/{run_name}"):
         os.makedirs(f"runs/{run_name}")
 
-    device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
+    #device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
+    device = torch.device("cpu") #works faster on such a small net
 
     # env setup
     envs = gym.vector.SyncVectorEnv(

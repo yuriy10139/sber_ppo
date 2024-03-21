@@ -201,7 +201,8 @@ if __name__ == "__main__":
     torch.manual_seed(args.seed)
     torch.backends.cudnn.deterministic = args.torch_deterministic
 
-    device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
+    #device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
+    device = torch.device("cpu") #works faster on such a small net
 
     # env setup
     envs = gym.vector.SyncVectorEnv(
@@ -292,7 +293,7 @@ if __name__ == "__main__":
                 envs.envs[env_id].unwrapped.rewards_raw
             ).to(device)
 
-        rewards_average.append(rewards_raw.sum() / args.num_envs)
+        rewards_average.append(rewards_raw.cpu().sum() / args.num_envs)
 
         if np.mean(rewards_average) > rewards_average_max:
             rewards_average_max = np.mean(rewards_average)
