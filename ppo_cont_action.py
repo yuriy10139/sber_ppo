@@ -41,6 +41,8 @@ class Args:
     """a hard scenario with a target where to balance the pendulum"""
     set_target_step: int = 70000
     """Number of step in a single env to generate a target"""
+    randomize_mass: bool = False
+    """whether to randomize pole mass"""
 
     # Algorithm specific arguments
     env_id: str = "InvertedPendulumEnv-v0"
@@ -97,6 +99,8 @@ def make_env(
     record_video_from,
     set_target,
     set_target_step,
+    randomize_mass,
+    set_mass,
 ):
     def thunk():
         if capture_video and idx == 0:
@@ -108,6 +112,8 @@ def make_env(
                 record_video_from=record_video_from,
                 set_target=set_target,
                 set_target_step=set_target_step,
+                randomize_mass=randomize_mass, 
+                set_mass=set_mass,
             )
         else:
             env = gym.make(
@@ -115,6 +121,8 @@ def make_env(
                 max_steps=num_steps,
                 set_target=set_target,
                 set_target_step=set_target_step,
+                randomize_mass=randomize_mass,
+                set_mass=set_mass,
             )
         env = gym.wrappers.FlattenObservation(
             env
@@ -217,6 +225,8 @@ if __name__ == "__main__":
                 args.record_video_from,
                 args.set_target,
                 args.set_target_step,
+                args.randomize_mass,
+                0.0,
             )
             for i in range(args.num_envs)
         ]

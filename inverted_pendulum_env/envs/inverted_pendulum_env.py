@@ -18,12 +18,16 @@ class InvertedPendulumEnv(gym.Env):
         set_target=False,
         set_target_step=70000,
         x_coordinate=None,
+        randomize_mass=False,
+        set_mass=0,
     ):
         self.init_qpos = np.zeros(2)
         self.init_qvel = np.zeros(2)
         self.max_steps = max_steps
         self.record_video = record_video
         self.set_target = set_target
+        self.randomize_mass = randomize_mass
+        self.set_mass = set_mass
         self.step_count = 0
         self.curr_step = 0
         self.rewards_raw = np.zeros([self.max_steps])
@@ -161,6 +165,12 @@ class InvertedPendulumEnv(gym.Env):
         self.data.qpos = self.init_qpos
         self.data.qvel = self.init_qvel
         self.data.qpos[1] = np.pi  # Set the pole to be facing down
+        
+        if self.randomize_mass:
+            self.model.body_mass[self.model.geom('cpole').id] = np.random.uniform(low = 3.0, high = 8.0)
+            
+        if self.set_mass > 0:
+            self.model.body_mass[self.model.geom('cpole').id] = self.set_mass
 
         self.renderer.update_scene(self.data, "fixed")
 

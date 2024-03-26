@@ -36,6 +36,10 @@ class Args:
     """path to saved model weights"""
     set_x_coordinate: float = None
     """X-coordinate of the target to stabilize a pendulum"""
+    randomize_mass: bool = False
+    """whether to randomize pole mass"""
+    set_mass: float = 0.0
+    """the value of pendulum's mass"""
 
 
 def make_env(
@@ -48,6 +52,8 @@ def make_env(
     set_target,
     set_target_step,
     set_x_coordinate,
+    randomize_mass,
+    set_mass,
 ):
     def thunk():
         env = gym.make(
@@ -59,6 +65,8 @@ def make_env(
             set_target=set_target,
             set_target_step=set_target_step,
             x_coordinate=set_x_coordinate,
+            randomize_mass=randomize_mass,
+            set_mass=set_mass
         )
         env = gym.wrappers.FlattenObservation(
             env
@@ -125,6 +133,9 @@ if __name__ == "__main__":
     if args.set_x_coordinate is not None:
         assert -1.0 <= args.set_x_coordinate <= 1.0, "coordinate must be in [-1.0, 1.0]"
     run_name = f"eval_run_{args.env_id}__{int(time.time())}"
+    
+    if args.randomize_mass:
+        assert args.set_mass == 0.0, "either randomize_mass or set_mass should be used"
 
     if not os.path.exists(f"runs/{run_name}"):
         os.makedirs(f"runs/{run_name}")
@@ -145,6 +156,8 @@ if __name__ == "__main__":
                 args.set_target,
                 args.set_target_step,
                 args.set_x_coordinate,
+                args.randomize_mass,
+                args.set_mass,
             )
         ]
     )
